@@ -10,6 +10,7 @@ public class system {
     ArrayList<Boolean> status = new ArrayList<Boolean>();
 
     public system() {
+        root=new Directory("root");
     }
 
     public system(int n, Allocation a) {
@@ -67,6 +68,7 @@ public class system {
         String[] parts = path.split("/");
         Directory found;
         found = getDirectory(root, path, 0);
+        System.out.println(found.name);
         if (found != null)
             if (allocation.createDirectory(found, parts[parts.length - 1])) {
                 if (mark == true) {
@@ -100,12 +102,14 @@ public class system {
         boolean flag = false;
         Directory found;
         found = getDirectory(root, path, 0);
+        System.out.println(found.name);
         if (found != null) {
             int deallocatedSize = allocation.deleteDirectory(found, periods, status);
             if (deallocatedSize != 0) {
                 this.totalspace -= deallocatedSize;
-                flag = true;
+
             }
+            flag = true;
         }
         if (flag)
             System.out.println("Folder is deleted successfully!");
