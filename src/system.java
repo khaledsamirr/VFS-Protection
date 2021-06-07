@@ -42,10 +42,8 @@ public class system {
     }*/
 
     public Directory getDirectory(Directory search, String[] parts, int index) {
-        if (index > parts.length) {
-            return null;
-        }
-        if (parts.length == 1) {
+
+        if (index + 1 == parts.length - 1) {
             return search;
         }
         for (int i = 0; i < search.subDirectories.size(); i++) {
@@ -88,7 +86,7 @@ public class system {
         String[] parts = path.split("/");
         Directory found;
         found = getDirectory(root, parts, 0);
-        System.out.println(found.name);
+
         if (found != null)
             if (allocation.createDirectory(found, parts[parts.length - 1])) {
                 if (mark == true) {
