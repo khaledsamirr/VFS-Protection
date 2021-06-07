@@ -10,7 +10,7 @@ public class system {
     ArrayList<Boolean> status = new ArrayList<Boolean>();
 
     public system() {
-        root=new Directory("root");
+        root = new Directory("root");
     }
 
     public system(int n, Allocation a) {

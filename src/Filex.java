@@ -1,14 +1,17 @@
 import java.io.File;
 import java.util.ArrayList;
+
 class node {
-        int block;
-        int next;
-        public node(int block){
-            this.block=block;
-        }
-        public node(int block,int next){
-        this.block=block;
-        this.next=next;
+    int block;
+    int next;
+
+    public node(int block) {
+        this.block = block;
+    }
+
+    public node(int block, int next) {
+        this.block = block;
+        this.next = next;
     }
 }
 

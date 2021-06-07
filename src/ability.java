@@ -1,9 +1,10 @@
 public class ability {
     String folder;
     int code;
-    public ability(String a,int c){
-        folder=a;
-        code=c;
+
+    public ability(String a, int c) {
+        folder = a;
+        code = c;
     }
 
     public int getCode() {

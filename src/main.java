@@ -29,7 +29,7 @@ public class main {
             temp = sc.nextLine().split("\t");
             if (temp[0].charAt(0) != '$') {
                 if (temp[0].charAt(0) != '<') {
-                    sys.createfile(path + temp[0], Integer.valueOf(temp[1]), false,"");
+                    sys.createfile(path + temp[0], Integer.valueOf(temp[1]), false, "");
                 } else {
                     sys.createfolder(path + temp[0].substring(1, temp[0].length() - 1), false);
                     loadFile(sc, path + temp[0].substring(1, temp[0].length() - 1) + "/", sys, Dir.subDirectories.get(Dir.subDirectories.size() - 1));
@@ -49,9 +49,9 @@ public class main {
         Scanner in = new Scanner(System.in);
         String input = "";
         String[] cmds;
-        ArrayList<user> users=new ArrayList<user>();
-        users.add(new user("admin","admin"));
-        user current=users.get(0);
+        ArrayList<user> users = new ArrayList<user>();
+        users.add(new user("admin", "admin"));
+        user current = users.get(0);
         system sys = new system();
         Allocation allocation;
         System.out.println("Enter Disk's number of blocks: ");
@@ -61,22 +61,22 @@ public class main {
         System.out.println("2- Indexed Allocation");
         System.out.println("3- Linked Allocation");
         int choice = in.nextInt();
-        String t="";
+        String t = "";
         switch (choice) {
             case 1:
                 allocation = new Contiguous();
                 sys = new system(N, allocation);
-                t="Contiguous";
+                t = "Contiguous";
                 break;
             case 2:
                 allocation = new Indexed();
                 sys = new system(N, allocation);
-                t="Indexed";
+                t = "Indexed";
                 break;
             case 3:
                 allocation = new Linked();
                 sys = new system(N, allocation);
-                t="Linked";
+                t = "Linked";
                 break;
 
         }
@@ -95,29 +95,25 @@ public class main {
             input = cmd.nextLine();
             cmds = input.split(" ");
 
-            if(cmds[0].equals("TellUser")){
-                if(cmds.length==1) {
+            if (cmds[0].equals("TellUser")) {
+                if (cmds.length == 1) {
                     System.out.println("Current User: " + current.username);
-                }else{
+                } else {
                     System.out.println("invalid command!");
                 }
 
-            }else if (cmds[0].equals("CUser")) {
+            } else if (cmds[0].equals("CUser")) {
 
 
-            }
-            else if(cmds[0].equals("Grant")){
+            } else if (cmds[0].equals("Grant")) {
 
 
-            }
-            else if(cmds[0].equals("Login")){
+            } else if (cmds[0].equals("Login")) {
 
 
-            }
-
-            else if (cmds[0].equals("CreateFile")) {
+            } else if (cmds[0].equals("CreateFile")) {
                 if (cmds.length >= 3) {
-                    sys.createfile(cmds[1], Integer.parseInt(cmds[2]), true,t);
+                    sys.createfile(cmds[1], Integer.parseInt(cmds[2]), true, t);
                     VFS_Write = new FileWriter("backupFile.txt");
                     updateFile(VFS_Write, sys.root);
                     VFS_Write.close();
