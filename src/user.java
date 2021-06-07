@@ -9,4 +9,12 @@ public class user {
         this.username = n;
         this.password = p;
     }
+
+    public void setCap(ArrayList<ability> cap) {
+        this.cap = cap;
+    }
+
+    public ArrayList<ability> getCap() {
+        return cap;
+    }
 }

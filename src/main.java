@@ -103,13 +103,61 @@ public class main {
                 }
 
             } else if (cmds[0].equals("CUser")) {
-
-
-            } else if (cmds[0].equals("Grant")) {
-
-
-            } else if (cmds[0].equals("Login")) {
-
+                if (current.username.equals("admin")) {
+                    if (cmds.length == 3) {
+                        for (int i = 0; i < users.size(); i++) {
+                            if (!users.get(i).username.equals(cmds[1])) {
+                                users.add(new user(cmds[1], cmds[2]));
+                            } else {
+                                System.out.println("Username is already exists!");
+                            }
+                        }
+                    } else {
+                        System.out.println("Invalid attributes for command!");
+                    }
+                } else {
+                    System.out.println("No access for this user to use this method!");
+                }
+            }
+            else if (cmds[0].equals("Grant")) {
+                if (current.username.equals("admin")) {
+                    user x=null;
+                    if (cmds.length == 4) {
+                        for(int i=0;i<users.size();i++){
+                            if(users.get(i).username.equals(cmds[1])){
+                                x=users.get(i);
+                                break;
+                            }
+                            if(x!=null){
+                               // set capabitites
+                            }else{
+                                System.out.println("No user with this username!");
+                            }
+                        }
+                    } else {
+                        System.out.println("Invalid attributes for command!");
+                    }
+                }else{
+                    System.out.println("No access for this user to use this method!");
+                }
+            }
+            else if (cmds[0].equals("Login")) {
+                user x=null;
+                if(cmds.length==3){
+                for(int i=0;i<users.size();i++){
+                    if(users.get(i).username.equals(cmds[1])){
+                        x=users.get(i);
+                        break;
+                    }
+                }
+                    if(x!=null&&x.password.equals(cmds[2])){
+                        current=x;
+                    }else{
+                        System.out.println("login is failed. Username or Password is wrong!");
+                }
+                }else{
+                    System.out.println("Invalid attributes for command!");
+                }
 
             } else if (cmds[0].equals("CreateFile")) {
                 if (cmds.length >= 3) {
