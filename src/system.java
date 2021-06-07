@@ -24,7 +24,7 @@ public class system {
         periods.add(new allocated(0, n - 1, false));
     }
 
-    public Directory getDirectory(Directory search, String path, int level) {
+    /*public Directory getDirectory(Directory search, String path, int level) {
         String[] parts = path.split("/");
         if (parts.length == 1)
             return search;
@@ -39,7 +39,27 @@ public class system {
         }
 
         return null;
+    }*/
+
+    public Directory getDirectory(Directory search, String[] parts, int index) {
+        if (index > parts.length) {
+            return null;
+        }
+        if (parts.length == 1) {
+            return search;
+        }
+        for (int i = 0; i < search.subDirectories.size(); i++) {
+            if (search.subDirectories.get(i).name.equals(parts[index + 1])) {
+                if (index + 1 == parts.length) {
+                    return search.subDirectories.get(i);
+                } else {
+                    return getDirectory(search.subDirectories.get(i), parts, index + 1);
+                }
+            }
+        }
+        return null;
     }
+
 
     public void createfile(String path, int n, Boolean mark, String type) {
         boolean flag = false;
@@ -47,7 +67,7 @@ public class system {
         if (n > this.N - this.totalspace)
             flag = false;
         Directory found;
-        found = getDirectory(root, path, 0);
+        found = getDirectory(root, parts, 0);
         if (found != null) {
             if (allocation.createFile(found, parts[parts.length - 1], n, periods, status, this.N - totalspace)) {
                 this.totalspace += n;
@@ -67,7 +87,7 @@ public class system {
     public void createfolder(String path, Boolean mark) {
         String[] parts = path.split("/");
         Directory found;
-        found = getDirectory(root, path, 0);
+        found = getDirectory(root, parts, 0);
         System.out.println(found.name);
         if (found != null)
             if (allocation.createDirectory(found, parts[parts.length - 1])) {
@@ -82,7 +102,7 @@ public class system {
         String[] parts = path.split("/");
         Directory found;
         boolean flag = false;
-        found = getDirectory(root, path, 0);
+        found = getDirectory(root, parts, 0);
         if (found != null) {
             int deallocatedSize = allocation.deleteFile(found, parts[parts.length - 1], periods, status);
             System.out.println("Deallocated space: " + deallocatedSize);
@@ -101,7 +121,7 @@ public class system {
         String[] parts = path.split("/");
         boolean flag = false;
         Directory found;
-        found = getDirectory(root, path, 0);
+        found = getDirectory(root, parts, 0);
         System.out.println(found.name);
         if (found != null) {
             int deallocatedSize = allocation.deleteDirectory(found, periods, status);
