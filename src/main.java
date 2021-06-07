@@ -105,12 +105,17 @@ public class main {
             } else if (cmds[0].equals("CUser")) {
                 if (current.username.equals("admin")) {
                     if (cmds.length == 3) {
+                        boolean flag=false;
                         for (int i = 0; i < users.size(); i++) {
-                            if (!users.get(i).username.equals(cmds[1])) {
-                                users.add(new user(cmds[1], cmds[2]));
-                            } else {
-                                System.out.println("Username is already exists!");
+                            if (users.get(i).username.equals(cmds[1])) {
+                                flag=true;
                             }
+                        }
+                        if(!flag){
+                            users.add(new user(cmds[1],cmds[2]));
+                            System.out.println("User is created successfully!");
+                        }else{
+                            System.out.println("Username is already exists!");
                         }
                     } else {
                         System.out.println("Invalid attributes for command!");
@@ -152,6 +157,7 @@ public class main {
                 }
                     if(x!=null&&x.password.equals(cmds[2])){
                         current=x;
+                        System.out.println("User is logged in!");
                     }else{
                         System.out.println("login is failed. Username or Password is wrong!");
                 }
