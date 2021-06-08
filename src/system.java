@@ -106,7 +106,7 @@ public class system {
         String[] parts = path.split("/");
         Directory found;
         boolean flag = false;
-        found = getDirectory(root, parts, 0, "Delete");
+        found = getDirectory(root, parts, 0, "Create");
         if (found != null) {
             int deallocatedSize = allocation.deleteFile(found, parts[parts.length - 1], periods, status);
             System.out.println("Deallocated space: " + deallocatedSize);
