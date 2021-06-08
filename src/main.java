@@ -191,25 +191,40 @@ public class main {
                         }
                         if (x != null) {
                             if (!x.username.equals("admin")) {
+                                boolean access = false;
                                 ability a = new ability(cmds[2], Integer.parseInt(cmds[3]));
-                                ArrayList<ability> cap = x.getCap();
-                                cap.add(a);
-                                x.setCap(cap);
-                                capBackupFile_Write = new FileWriter("capabilities.txt");
-                                updateCapFile(capBackupFile_Write, users);
-                                capBackupFile_Write.close();
-                                System.out.println("Capability has been Granted!");
+                                for (int i = 0; i < x.getCap().size(); i++) {
+                                    if (x.getCap().get(i).path.equals(a.path)) {
+                                        access = true;
+                                        break;
+                                    }
+                                }
+                                if (!access) {
+                                    ArrayList<ability> cap = x.getCap();
+                                    cap.add(a);
+                                    x.setCap(cap);
+                                    capBackupFile_Write = new FileWriter("capabilities.txt");
+                                    updateCapFile(capBackupFile_Write, users);
+                                    capBackupFile_Write.close();
+                                    System.out.println("Capability has been Granted!");
+                                }
+                             else {
+                                    System.out.println("Folder is already has access from this user! ");
+                                }
                             }
                         } else {
                             System.out.println("No user with this username!");
                         }
-                    } else {
+                    }
+                else{
                         System.out.println("Invalid attributes for command!");
                     }
-                } else {
+            }
+                 else{
                     System.out.println("No access for this user to use this method!");
                 }
-            } else if (cmds[0].equals("Login")) {
+            }
+             else if (cmds[0].equals("Login")) {
                 user x = null;
                 if (cmds.length == 3) {
                     for (int i = 0; i < users.size(); i++) {
