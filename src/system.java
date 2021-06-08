@@ -88,18 +88,37 @@ public class system {
             System.out.println("Can't create file!");
     }
 
-    public void createfolder(String path, Boolean mark) {
+    public void createfolder(String path, Boolean mark,user c) {
         String[] parts = path.split("/");
-        Directory found;
+        Directory found,founded;
         found = getDirectory(root, parts, 0, "Create");
-
-        if (found != null)
+        int ability=-1;
+        for(int i=0;i<c.getCap().size();i++){
+            if(path.contains(c.getCap().get(i).path)) {
+                ability=c.getCap().get(i).code;
+                break;
+            }
+        }
+        boolean flag=false;
+        if(ability!=-1){
+            if(ability==10||ability==11)
+                flag=true;
+        }else{
+            if(c.username.equals("admin"))
+                flag=true;
+        }
+    if(flag){
+        if (found != null) {
             if (allocation.createDirectory(found, parts[parts.length - 1])) {
                 if (mark == true) {
                     System.out.println("Folder is created successfully!");
                 }
             } else
                 System.out.println("Can't create folder!");
+        }
+    }else{
+        System.out.println("Not available for this user to create folder here");
+    }
     }
 
     public void deletefile(String path) {
@@ -121,24 +140,43 @@ public class system {
         }
     }
 
-    public void deletefolder(String path) {
+    public void deletefolder(String path,user c) {
         String[] parts = path.split("/");
-        boolean flag = false;
         Directory found;
+        boolean flag2=false;
         found = getDirectory(root, parts, 0, "Delete");
-        System.out.println(found.name);
-        if (found != null) {
-            int deallocatedSize = allocation.deleteDirectory(found, periods, status);
-            if (deallocatedSize != 0) {
-                this.totalspace -= deallocatedSize;
-
+        int ability=-1;
+        for(int i=0;i<c.getCap().size();i++){
+            if(path.contains(c.getCap().get(i).path)) {
+                ability=c.getCap().get(i).code;
+                break;
             }
-            flag = true;
         }
-        if (flag)
-            System.out.println("Folder is deleted successfully!");
-        else
-            System.out.println("Can't delete folder!");
+        boolean flag=false;
+        if(ability!=-1){
+            if(ability==01||ability==11)
+                flag=true;
+        }else{
+            if(c.username.equals("admin"))
+                flag=true;
+        }
+        if(flag){
+            if (found != null&&found!=root) {
+                int deallocatedSize = allocation.deleteDirectory(found, periods, status);
+                if (deallocatedSize != 0) {
+                    this.totalspace -= deallocatedSize;
+
+                }
+                flag2 = true;
+            }
+            if (flag2)
+                System.out.println("Folder is deleted successfully!");
+            else
+                System.out.println("Can't delete folder!");
+        }
+        else{
+            System.out.println("Not available for this user to delete folder here");
+        }
     }
 
     public void DisplayDiskStatus() {

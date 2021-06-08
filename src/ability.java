@@ -1,9 +1,9 @@
 public class ability {
-    String folder;
+    String path;
     int code;
 
     public ability(String a, int c) {
-        folder = a;
+        path = a;
         code = c;
     }
 
@@ -12,7 +12,7 @@ public class ability {
     }
 
     public String getFolder() {
-        return folder;
+        return path;
     }
 
     public void setCode(int code) {
@@ -20,6 +20,6 @@ public class ability {
     }
 
     public void setFolder(String folder) {
-        this.folder = folder;
+        this.path = folder;
     }
 }

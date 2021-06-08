@@ -39,7 +39,7 @@ public class Directory {
                 subDirectories.get(i).printDirectoryStructure(level + 6);
             }
         } else
-            System.out.print("<" + name + "> is not found!");
+
 
         System.out.println("\n");
     }

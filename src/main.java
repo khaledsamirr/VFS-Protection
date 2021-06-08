@@ -25,13 +25,14 @@ public class main {
 
     public static void loadFile(Scanner sc, String path, system sys, Directory Dir) {
         String[] temp;
+        user current=new user("admin","admin");
         while (sc.hasNext()) {
             temp = sc.nextLine().split("\t");
             if (temp[0].charAt(0) != '$') {
                 if (temp[0].charAt(0) != '<') {
                     sys.createfile(path + temp[0], Integer.valueOf(temp[1]), false, "");
                 } else {
-                    sys.createfolder(path + temp[0].substring(1, temp[0].length() - 1), false);
+                    sys.createfolder(path + temp[0].substring(1, temp[0].length() - 1), false,current);
                     loadFile(sc, path + temp[0].substring(1, temp[0].length() - 1) + "/", sys, Dir.subDirectories.get(Dir.subDirectories.size() - 1));
                 }
             } else {
@@ -105,16 +106,16 @@ public class main {
             } else if (cmds[0].equals("CUser")) {
                 if (current.username.equals("admin")) {
                     if (cmds.length == 3) {
-                        boolean flag=false;
+                        boolean flag = false;
                         for (int i = 0; i < users.size(); i++) {
                             if (users.get(i).username.equals(cmds[1])) {
-                                flag=true;
+                                flag = true;
                             }
                         }
-                        if(!flag){
-                            users.add(new user(cmds[1],cmds[2]));
+                        if (!flag) {
+                            users.add(new user(cmds[1], cmds[2]));
                             System.out.println("User is created successfully!");
-                        }else{
+                        } else {
                             System.out.println("Username is already exists!");
                         }
                     } else {
@@ -123,26 +124,30 @@ public class main {
                 } else {
                     System.out.println("No access for this user to use this method!");
                 }
-            }
-            else if (cmds[0].equals("Grant")) {
+            } else if (cmds[0].equals("Grant")) {
                 if (current.username.equals("admin")) {
-                    user x=null;
+                    user x = null;
                     if (cmds.length == 4) {
-                        for(int i=0;i<users.size();i++){
-                            if(users.get(i).username.equals(cmds[1])){
-                                x=users.get(i);
+                        for (int i = 0; i < users.size(); i++) {
+                            if (users.get(i).username.equals(cmds[1])) {
+                                x = users.get(i);
                                 break;
                             }
-                            if(x!=null){
-                               // set capabitites
-                            }else{
-                                System.out.println("No user with this username!");
+                        }
+                        if (x != null) {
+                            if (!x.username.equals("admin")) {
+                                ability a = new ability(cmds[2], Integer.parseInt(cmds[3]));
+                                ArrayList<ability> cap = x.getCap();
+                                cap.add(a);
+                                x.setCap(cap);
                             }
+                        } else {
+                            System.out.println("No user with this username!");
                         }
                     } else {
                         System.out.println("Invalid attributes for command!");
                     }
-                }else{
+                } else {
                     System.out.println("No access for this user to use this method!");
                 }
             }
@@ -174,7 +179,7 @@ public class main {
                 } else
                     System.out.println("wrong inputs!");
             } else if (cmds[0].equals("CreateFolder")) {
-                sys.createfolder(cmds[1], true);
+                sys.createfolder(cmds[1], true,current);
                 VFS_Write = new FileWriter("backupFile.txt");
                 updateFile(VFS_Write, sys.root);
                 VFS_Write.close();
@@ -184,7 +189,7 @@ public class main {
                 updateFile(VFS_Write, sys.root);
                 VFS_Write.close();
             } else if (cmds[0].equals("DeleteFolder")) {
-                sys.deletefolder(cmds[1]);
+                sys.deletefolder(cmds[1],current);
                 VFS_Write = new FileWriter("backupFile.txt");
                 updateFile(VFS_Write, sys.root);
                 VFS_Write.close();
