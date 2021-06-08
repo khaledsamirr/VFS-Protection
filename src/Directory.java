@@ -41,7 +41,7 @@ public class Directory {
         } else
 
 
-        System.out.println("\n");
+            System.out.println("\n");
     }
 
     public ArrayList<Directory> getSubDirectories() {

@@ -24,30 +24,14 @@ public class system {
         periods.add(new allocated(0, n - 1, false));
     }
 
-    /*public Directory getDirectory(Directory search, String path, int level) {
-        String[] parts = path.split("/");
-        if (parts.length == 1)
-            return search;
-
-        for (Directory s : search.subDirectories) {
-            if (parts[level + 1].equals(s.name) && level != parts.length - 2) {
-                return getDirectory(s, path, level + 1);
-            }
-        }
-        if (parts[level].equals(search.name) && level == parts.length - 2) {
-            return search;
-        }
-
-        return null;
-    }*/
 
     public Directory getDirectory(Directory search, String[] parts, int index, String type) {
 
-        if (type.equalsIgnoreCase("create")) {
+        if (type.equalsIgnoreCase("short")) {
             if (index + 1 == parts.length - 1) {
                 return search;
             }
-        } else if (type.equalsIgnoreCase("delete")) {
+        } else if (type.equalsIgnoreCase("full")) {
             if (index + 1 == parts.length) {
                 return search;
             }
@@ -71,7 +55,7 @@ public class system {
         if (n > this.N - this.totalspace)
             flag = false;
         Directory found;
-        found = getDirectory(root, parts, 0, "Create");
+        found = getDirectory(root, parts, 0, "short");
         if (found != null) {
             if (allocation.createFile(found, parts[parts.length - 1], n, periods, status, this.N - totalspace)) {
                 this.totalspace += n;
@@ -88,44 +72,44 @@ public class system {
             System.out.println("Can't create file!");
     }
 
-    public void createfolder(String path, Boolean mark,user c) {
+    public void createfolder(String path, Boolean mark, user c) {
         String[] parts = path.split("/");
-        Directory found,founded;
-        found = getDirectory(root, parts, 0, "Create");
-        int ability=-1;
-        for(int i=0;i<c.getCap().size();i++){
-            if(path.contains(c.getCap().get(i).path)) {
-                ability=c.getCap().get(i).code;
+        Directory found, founded;
+        found = getDirectory(root, parts, 0, "short");
+        int ability = -1;
+        for (int i = 0; i < c.getCap().size(); i++) {
+            if (path.contains(c.getCap().get(i).path)) {
+                ability = c.getCap().get(i).code;
                 break;
             }
         }
-        boolean flag=false;
-        if(ability!=-1){
-            if(ability==10||ability==11)
-                flag=true;
-        }else{
-            if(c.username.equals("admin"))
-                flag=true;
+        boolean flag = false;
+        if (ability != -1) {
+            if (ability == 10 || ability == 11)
+                flag = true;
+        } else {
+            if (c.username.equals("admin"))
+                flag = true;
         }
-    if(flag){
-        if (found != null) {
-            if (allocation.createDirectory(found, parts[parts.length - 1])) {
-                if (mark == true) {
-                    System.out.println("Folder is created successfully!");
-                }
-            } else
-                System.out.println("Can't create folder!");
+        if (flag) {
+            if (found != null) {
+                if (allocation.createDirectory(found, parts[parts.length - 1])) {
+                    if (mark == true) {
+                        System.out.println("Folder is created successfully!");
+                    }
+                } else
+                    System.out.println("Can't create folder!");
+            }
+        } else {
+            System.out.println("Not available for this user to create folder here");
         }
-    }else{
-        System.out.println("Not available for this user to create folder here");
-    }
     }
 
     public void deletefile(String path) {
         String[] parts = path.split("/");
         Directory found;
         boolean flag = false;
-        found = getDirectory(root, parts, 0, "Create");
+        found = getDirectory(root, parts, 0, "short");
         if (found != null) {
             int deallocatedSize = allocation.deleteFile(found, parts[parts.length - 1], periods, status);
             System.out.println("Deallocated space: " + deallocatedSize);
@@ -140,28 +124,28 @@ public class system {
         }
     }
 
-    public void deletefolder(String path,user c) {
+    public void deletefolder(String path, user c) {
         String[] parts = path.split("/");
         Directory found;
-        boolean flag2=false;
-        found = getDirectory(root, parts, 0, "Delete");
-        int ability=-1;
-        for(int i=0;i<c.getCap().size();i++){
-            if(path.contains(c.getCap().get(i).path)) {
-                ability=c.getCap().get(i).code;
+        boolean flag2 = false;
+        found = getDirectory(root, parts, 0, "full");
+        int ability = -1;
+        for (int i = 0; i < c.getCap().size(); i++) {
+            if (path.contains(c.getCap().get(i).path)) {
+                ability = c.getCap().get(i).code;
                 break;
             }
         }
-        boolean flag=false;
-        if(ability!=-1){
-            if(ability==01||ability==11)
-                flag=true;
-        }else{
-            if(c.username.equals("admin"))
-                flag=true;
+        boolean flag = false;
+        if (ability != -1) {
+            if (ability == 01 || ability == 11)
+                flag = true;
+        } else {
+            if (c.username.equals("admin"))
+                flag = true;
         }
-        if(flag){
-            if (found != null&&found!=root) {
+        if (flag) {
+            if (found != null && found != root) {
                 int deallocatedSize = allocation.deleteDirectory(found, periods, status);
                 if (deallocatedSize != 0) {
                     this.totalspace -= deallocatedSize;
@@ -173,8 +157,7 @@ public class system {
                 System.out.println("Folder is deleted successfully!");
             else
                 System.out.println("Can't delete folder!");
-        }
-        else{
+        } else {
             System.out.println("Not available for this user to delete folder here");
         }
     }
