@@ -207,24 +207,20 @@ public class main {
                                     updateCapFile(capBackupFile_Write, users);
                                     capBackupFile_Write.close();
                                     System.out.println("Capability has been Granted!");
-                                }
-                             else {
+                                } else {
                                     System.out.println("Folder is already has access from this user! ");
                                 }
                             }
                         } else {
                             System.out.println("No user with this username!");
                         }
-                    }
-                else{
+                    } else {
                         System.out.println("Invalid attributes for command!");
                     }
-            }
-                 else{
+                } else {
                     System.out.println("No access for this user to use this method!");
                 }
-            }
-             else if (cmds[0].equals("Login")) {
+            } else if (cmds[0].equals("Login")) {
                 user x = null;
                 if (cmds.length == 3) {
                     for (int i = 0; i < users.size(); i++) {
